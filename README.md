@@ -1,15 +1,11 @@
 # FunPark (or: "Advanced Functional Programming with F#")
 
-*FunPark* is a miniature theme park management system built, from scratch, in [Advanced Functional Programming with Elixir](https://pragprog.com/titles/jkelixir/advanced-functional-programming-with-elixir/) (by Joseph Koski).
+*FunPark* is a miniature theme park management system built from scratch in [Advanced Functional Programming with Elixir](https://pragprog.com/titles/jkelixir/advanced-functional-programming-with-elixir/) by Joseph Koski.
 
-As the title of the book implies, Koski uses [Elixir](https://elixir-lang.org/) as his language of choice, and an excellent choide it is - Elixir is a premium Functional Programming language!  
+As the title of the book implies, Koski uses [Elixir](https://elixir-lang.org/) as his language of choice, and an excellent choice it is - Elixir is a premium Functional Programming language!  
 And while I do admire Elixir, and enjoyed hobby-coding in it in the past, today my passion is with [F#](https://fsharp.org/).
 
-It, therefore, made sense to me, seeing a book that builds a real-life-like project like this one, to see how easy it can be translated into F#, the two language being **very** different, only sharing being FP languages.
-
-This repo is the journey by an F# admirer, but **by no case expert** into programming transliteration.  
-I think it's quite appropriate to "oh boy!".
-
+This repo is a challenge, and journey by an F# admirer, but **by no means an expert**, into seeing how easy reimplementing that system in F# could be.  
 **Oh, boy!** 😄
 
 ## P.S
