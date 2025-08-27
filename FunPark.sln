@@ -1,0 +1,48 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Shared", "Shared\Shared.fsproj", "{8BAFE256-D3AD-4CFE-B9D4-9D5C06476DE7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{E1591551-BD11-4283-AC92-9F5AA2393E04}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "server", "server", "{626D215B-060C-475C-B948-75343FEF9D18}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FunParkTests", "tests\server\FunParkTests\FunParkTests.fsproj", "{07CD9F47-4848-44C2-885B-C65C9129391E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{43F3038C-676D-494E-B18F-EFF7530E8BD4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "server", "server", "{AA75FBA1-64DC-4F60-9FBA-66EAAA4D4492}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FunPark", "src\server\FunPark\FunPark.fsproj", "{36C27111-70EE-4739-9AB2-7C3BD12BDA91}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8BAFE256-D3AD-4CFE-B9D4-9D5C06476DE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8BAFE256-D3AD-4CFE-B9D4-9D5C06476DE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8BAFE256-D3AD-4CFE-B9D4-9D5C06476DE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8BAFE256-D3AD-4CFE-B9D4-9D5C06476DE7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{07CD9F47-4848-44C2-885B-C65C9129391E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07CD9F47-4848-44C2-885B-C65C9129391E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07CD9F47-4848-44C2-885B-C65C9129391E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07CD9F47-4848-44C2-885B-C65C9129391E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{36C27111-70EE-4739-9AB2-7C3BD12BDA91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36C27111-70EE-4739-9AB2-7C3BD12BDA91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36C27111-70EE-4739-9AB2-7C3BD12BDA91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36C27111-70EE-4739-9AB2-7C3BD12BDA91}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{626D215B-060C-475C-B948-75343FEF9D18} = {E1591551-BD11-4283-AC92-9F5AA2393E04}
+		{07CD9F47-4848-44C2-885B-C65C9129391E} = {626D215B-060C-475C-B948-75343FEF9D18}
+		{AA75FBA1-64DC-4F60-9FBA-66EAAA4D4492} = {43F3038C-676D-494E-B18F-EFF7530E8BD4}
+		{36C27111-70EE-4739-9AB2-7C3BD12BDA91} = {AA75FBA1-64DC-4F60-9FBA-66EAAA4D4492}
+	EndGlobalSection
+EndGlobal
