@@ -3,10 +3,23 @@
 [<AutoOpen>]
 module Domain =
     [<Measure>]
-    type cm
+    type cm // Non-SI unit: centimeter
 
     [<Measure>]
-    type yr
+    type yr // Years
+
+    [<Measure>]
+    type rp // Reward points
+
+    type Tags =
+        | FamilyFriendly
+        | Thrilling
+        | Educational
+
+    type TicketTier =
+        | Standard
+        | Premium
+        | VIP
 
     type PositiveNonZeroInt<[<Measure>] 'u> = private PositiveNonZeroInt of int<'u>
 
@@ -15,8 +28,3 @@ module Domain =
             if x > 0<_> then Some(PositiveNonZeroInt x) else None
 
         let value (PositiveNonZeroInt x) = x
-
-    type Tags =
-        | FamilyFriendly
-        | Thrilling
-        | Educational
