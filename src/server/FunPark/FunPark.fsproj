@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="Rides.fs" />
     <Compile Include="FunPark.fs" />
   </ItemGroup>
 
