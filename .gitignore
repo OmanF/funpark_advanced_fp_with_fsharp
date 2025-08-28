@@ -2125,6 +2125,5 @@ FodyWeavers.xsd
 # Additional files built by Visual Studio
 
 ### User specified
-*.fsx
 
 # End of https://www.toptal.com/developers/gitignore/api/fsharp,dotnetcore,elixir,clojure,dbeaver,aspnetcore,r,go,elm,vim,git,nim,svelte,osx,node,ruby,rust,julia,haskell,idris,swift,scala,rider,ocaml,linux,kotlin,macos,emacs,rails,python,jetbrains,jetbrains+all,jetbrains+iml,erlang,elisp,phoenix,crystal,windows,android,eclipse,objective-c,reasonml,purescript,cypressio,chocolatey,purebasic,powershell,sublimetext,visualstudio,visualstudiocode,jupyternotebooks,yarn,c,c++,diff

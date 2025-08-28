@@ -1,0 +1,45 @@
+#load "/home/ofk/FunPark/Shared/Shared.fs"
+#load "/home/ofk/FunPark/src/server/FunPark/Rides.fs"
+#load "/home/ofk/FunPark/src/server/FunPark/FreePasses.fs"
+#load "/home/ofk/FunPark/src/server/FunPark/Patrons.fs"
+
+#r "nuget: Bogus"
+
+open Bogus
+open System
+open Shared
+open FunPark.Rides
+open FunPark.FreePasses
+open FunPark.Patrons
+open FSharp.Data.UnitSystems.SI.UnitSymbols
+
+let f = Faker()
+
+let myRide =
+    Ride.create
+        { Name = "Ferris Wheel"
+          MinAge = PositiveNonZeroInt.create (f.Random.Int(-25, 6) * 1<yr>)
+          MinHeight = PositiveNonZeroInt.create (f.Random.Int(-25, 90) * 1<cm>)
+          WaitTime = PositiveNonZeroInt.create (f.Random.Int(-25, 30) * 1<s>)
+          Online = Online
+          Tags = [ FamilyFriendly; Thrilling ] }
+
+let myFreePass =
+    FreePass.create
+        { Ride = myRide
+          ValidFrom = DateTime.UtcNow }
+
+let myPatron =
+    Patron.create
+        { Name = f.Name.FullName()
+          Age = PositiveNonZeroInt.create (f.Random.Int(-25, 25) * 1<yr>)
+          Height = PositiveNonZeroInt.create (f.Random.Int(-25, 175) * 1<cm>)
+          RewardPoints = f.Random.Int(-25, 50) * 1<rp>
+          TicketTier = Standard
+          FreePasses = [ myFreePass ]
+          Likes = [ "Roller Coaster"; "Ferris Wheel" ]
+          Dislikes = [ "Haunted House" ] }
+
+printfn $"Ride created: {myRide}"
+printfn $"Free pass created: {myFreePass}"
+printfn $"Patron created: {myPatron}"
