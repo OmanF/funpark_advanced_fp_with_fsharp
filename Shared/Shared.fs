@@ -8,19 +8,6 @@ module Domain =
     [<Measure>]
     type yr // Years
 
-    [<Measure>]
-    type rp // Reward points
-
-    type Tags =
-        | FamilyFriendly
-        | Thrilling
-        | Educational
-
-    type TicketTier =
-        | Standard
-        | Premium
-        | VIP
-
     type PositiveNonZeroInt<[<Measure>] 'u> = private PositiveNonZeroInt of int<'u>
 
     module PositiveNonZeroInt =

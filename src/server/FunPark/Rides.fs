@@ -5,6 +5,11 @@ open Shared
 open FSharp.Data.UnitSystems.SI.UnitSymbols
 
 module Rides =
+    type RideTags =
+        | FamilyFriendly
+        | Thrilling
+        | Educational
+
     type RideStatus =
         | Online
         | Offline
@@ -17,7 +22,7 @@ module Rides =
               MinHeight: int<cm>
               WaitTime: int<s>
               Online: RideStatus
-              Tags: Tags list }
+              Tags: RideTags list }
 
     module Ride =
         type RideConstructor =
@@ -25,8 +30,8 @@ module Rides =
               MinAge: PositiveNonZeroInt<yr> option
               MinHeight: PositiveNonZeroInt<cm> option
               WaitTime: PositiveNonZeroInt<s> option
-              Online: RideStatus
-              Tags: Tags list }
+              Online: RideStatus option
+              Tags: RideTags list }
 
         let create
             { Name = name
@@ -41,5 +46,5 @@ module Rides =
               MinAge = defaultArg (Option.map PositiveNonZeroInt.value minAge) 8<yr>
               MinHeight = defaultArg (Option.map PositiveNonZeroInt.value minHeight) 100<cm>
               WaitTime = defaultArg (Option.map PositiveNonZeroInt.value waitTime) 60<s>
-              Online = online
+              Online = defaultArg online Online
               Tags = tags }

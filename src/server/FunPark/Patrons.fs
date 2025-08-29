@@ -5,6 +5,14 @@ open Shared
 open FunPark.FreePasses
 
 module Patrons =
+    [<Measure>]
+    type rp // Reward points
+
+    type TicketTier =
+        | Standard
+        | Premium
+        | VIP
+
     type Patron =
         private
             { Id: Guid
@@ -23,7 +31,7 @@ module Patrons =
               Age: PositiveNonZeroInt<yr> option
               Height: PositiveNonZeroInt<cm> option
               RewardPoints: int<rp>
-              TicketTier: TicketTier
+              TicketTier: TicketTier option
               FreePasses: FreePass list
               Likes: string list
               Dislikes: string list }
@@ -48,7 +56,7 @@ module Patrons =
                      | true -> Some rewardPoints
                      | false -> None)
                     0<rp>
-              TicketTier = ticketTier
+              TicketTier = defaultArg ticketTier Standard
               FreePasses = freePasses
               Likes = likes
               Dislikes = dislikes }
