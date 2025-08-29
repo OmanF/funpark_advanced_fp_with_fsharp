@@ -25,6 +25,18 @@ module Patrons =
               Likes: string list
               Dislikes: string list }
 
+    // Public view type for Patron, exposes all fields for dot-access
+    type PatronView =
+        { Id: Guid
+          Name: string
+          Age: int<yr>
+          Height: int<cm>
+          RewardPoints: int<rp>
+          TicketTier: TicketTier
+          FreePasses: FreePassView list
+          Likes: string list
+          Dislikes: string list }
+
     module Patron =
         type PatronConstructor =
             { Name: string
@@ -45,7 +57,7 @@ module Patrons =
               FreePasses = freePasses
               Likes = likes
               Dislikes = dislikes }
-            =
+            : Patron =
             { Id = Guid.NewGuid()
               Name = name
               Age = defaultArg (Option.map PositiveNonZeroInt.value minAge) 30<yr>
@@ -60,3 +72,14 @@ module Patrons =
               FreePasses = freePasses
               Likes = likes
               Dislikes = dislikes }
+
+        let value (patron: Patron) : PatronView =
+            { Id = patron.Id
+              Name = patron.Name
+              Age = patron.Age
+              Height = patron.Height
+              RewardPoints = patron.RewardPoints
+              TicketTier = patron.TicketTier
+              FreePasses = List.map FreePass.value patron.FreePasses
+              Likes = patron.Likes
+              Dislikes = patron.Dislikes }

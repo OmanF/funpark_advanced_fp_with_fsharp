@@ -10,6 +10,7 @@ module Rides =
         | Thrilling
         | Educational
 
+
     type RideStatus =
         | Online
         | Offline
@@ -23,6 +24,16 @@ module Rides =
               WaitTime: int<s>
               Online: RideStatus
               Tags: RideTags list }
+
+    // Public view type for Ride, exposes all fields for dot-access
+    type RideView =
+        { Id: Guid
+          Name: string
+          MinAge: int<yr>
+          MinHeight: int<cm>
+          WaitTime: int<s>
+          Online: RideStatus
+          Tags: RideTags list }
 
     module Ride =
         type RideConstructor =
@@ -40,7 +51,7 @@ module Rides =
               WaitTime = waitTime
               Online = online
               Tags = tags }
-            =
+            : Ride =
             { Id = Guid.NewGuid()
               Name = name
               MinAge = defaultArg (Option.map PositiveNonZeroInt.value minAge) 8<yr>
@@ -48,3 +59,12 @@ module Rides =
               WaitTime = defaultArg (Option.map PositiveNonZeroInt.value waitTime) 60<s>
               Online = defaultArg online Online
               Tags = tags }
+
+        let value (ride: Ride) : RideView =
+            { Id = ride.Id
+              Name = ride.Name
+              MinAge = ride.MinAge
+              MinHeight = ride.MinHeight
+              WaitTime = ride.WaitTime
+              Online = ride.Online
+              Tags = ride.Tags }

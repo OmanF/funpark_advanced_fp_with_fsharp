@@ -40,6 +40,9 @@ let myPatron =
           Likes = [ "Roller Coaster"; "Ferris Wheel" ]
           Dislikes = [ "Haunted House" ] }
 
-printfn $"Ride created: {myRide}"
-printfn $"Free pass created: {myFreePass}"
-printfn $"Patron created: {myPatron}"
+printfn $"Ride's name: %s{(Ride.value myRide).Name}"
+printfn $"FreePass is valid starting: %A{(FreePass.value myFreePass).ValidFrom}"
+printfn $"Parton's name is: %s{(Patron.value myPatron).Name}"
+printfn $"Ride created: %A{myRide}"
+printfn $"Free pass created: %A{myFreePass}"
+printfn $"Patron created: %A{myPatron}"
