@@ -10,7 +10,6 @@ module Rides =
         | Thrilling
         | Educational
 
-
     type RideStatus =
         | Online
         | Offline
@@ -36,6 +35,8 @@ module Rides =
           Tags: RideTags list }
 
     module Ride =
+        // Utility type for constructing a Ride: allows for named parameters to be used as input for the constructor
+        // Either alternative, tuple or curried parameters, require positional arguments, with no "nametag", making it harder to understand the purpose of each argument, and their correct order
         type RideConstructor =
             { Name: string
               MinAge: PositiveNonZeroInt<yr> option
@@ -44,6 +45,8 @@ module Rides =
               Online: RideStatus option
               Tags: RideTags list }
 
+        // Annotating the function output's type as `Ride`, the private type, is required since `Ride` and `RideView` have the same fields, and `RideView` comes later, unless the function is annotated it will be assigned the wrong type, the public `RideView` type
+        // The input's type is inferred as `RideConstructor` since it's missing the `Id` field
         let create
             { Name = name
               MinAge = minAge
@@ -53,13 +56,20 @@ module Rides =
               Tags = tags }
             : Ride =
             { Id = Guid.NewGuid()
-              Name = name
+              Name =
+                match String.IsNullOrWhiteSpace name with
+                | false -> name
+                | true ->
+                    raise
+                    <| ArgumentException "Invalid ride name: must not be empty, null, or whitespace"
               MinAge = defaultArg (Option.map PositiveNonZeroInt.value minAge) 8<yr>
               MinHeight = defaultArg (Option.map PositiveNonZeroInt.value minHeight) 100<cm>
               WaitTime = defaultArg (Option.map PositiveNonZeroInt.value waitTime) 60<s>
               Online = defaultArg online Online
               Tags = tags }
 
+        // Annotation both required: since `Ride` and `RideView` have the same fields, and `RideView` comes later, unless `ride` is annotated, the compiler will assign its type as `RideView` which will result in a logic error
+        // But, also helpful in distinguishing between the fact input is a `Ride`, the private type, and the output is `RideView`, the publicly accessible type
         let value (ride: Ride) : RideView =
             { Id = ride.Id
               Name = ride.Name

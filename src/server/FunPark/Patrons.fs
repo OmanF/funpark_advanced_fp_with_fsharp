@@ -38,6 +38,8 @@ module Patrons =
           Dislikes: string list }
 
     module Patron =
+        // Utility type for constructing a Patron: allows for named parameters to be used as input for the constructor
+        // Either alternative, tuple or curried parameters, require positional arguments, with no "nametag", making it harder to understand the purpose of each argument, and their correct order
         type PatronConstructor =
             { Name: string
               Age: PositiveNonZeroInt<yr> option
@@ -48,6 +50,8 @@ module Patrons =
               Likes: string list
               Dislikes: string list }
 
+        // Annotating the function output's type as `Patron`, the private type, is required since `Patron` and `PatronView` have the same fields, and `PatronView` comes later, unless the function is annotated it will be assigned the wrong type, the public `PatronView` type
+        // The input's type is inferred as `PatronConstructor` since it's missing the `Id` field
         let create
             { Name = name
               Age = minAge
@@ -59,7 +63,12 @@ module Patrons =
               Dislikes = dislikes }
             : Patron =
             { Id = Guid.NewGuid()
-              Name = name
+              Name =
+                match String.IsNullOrWhiteSpace name with
+                | false -> name
+                | true ->
+                    raise
+                    <| ArgumentException "Invalid patron name: must not be empty, null, or whitespace"
               Age = defaultArg (Option.map PositiveNonZeroInt.value minAge) 30<yr>
               Height = defaultArg (Option.map PositiveNonZeroInt.value minHeight) 190<cm>
               RewardPoints =
@@ -73,6 +82,8 @@ module Patrons =
               Likes = likes
               Dislikes = dislikes }
 
+        // Annotation both required: since `Patron` and `PatronView` have the same fields, and `PatronView` comes later, unless `patron` is annotated, the compiler will assign its type as `PatronView` which will result in a logic error
+        // But, also helpful in distinguishing between the fact input is a `Patron`, the private type, and the output is `PatronView`, the publicly accessible type
         let value (patron: Patron) : PatronView =
             { Id = patron.Id
               Name = patron.Name
