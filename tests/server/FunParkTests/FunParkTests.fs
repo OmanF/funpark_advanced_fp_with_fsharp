@@ -4,7 +4,6 @@ open FunPark.Rides
 open FSharp.Data.UnitSystems.SI.UnitSymbols
 
 module DomainTests =
-    [<Tests>]
     let ridesTests =
         let referenceRide: RideView =
             { Id = new System.Guid()
@@ -139,9 +138,7 @@ module DomainTests =
                       { referenceRide with
                           Id = (Ride.value ride).Id
                           Tags = [] }
-                      "Expected ride record to match"
-
-              ptestList "Properties tests" [ testCase "" <| fun _ -> () ] ] // TODO: Implement these!
+                      "Expected ride record to match" ]
 
 [<EntryPoint>]
 let main args =

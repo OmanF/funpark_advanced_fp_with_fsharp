@@ -7,4 +7,6 @@ NUGET
     FsCheck (3.3.1)
       FSharp.Core (>= 5.0.2) - restriction: >= netstandard2.0
     FSharp.Core (9.0.303) - restriction: >= netstandard2.0
+    Hedgehog (0.13)
+      FSharp.Core (>= 4.3.4 <= 99.0) - restriction: >= netstandard2.0
     Mono.Cecil (0.11.6) - restriction: >= net6.0
