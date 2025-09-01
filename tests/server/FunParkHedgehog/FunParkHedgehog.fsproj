@@ -5,7 +5,9 @@
     <TargetFramework>net9.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="FunParkHedgehog.fs" />
+    <Compile Include="HedgehogGenerators.fs" />
+    <Compile Include="RideTest.fs" />
+    <Compile Include="Main.fs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\src\server\FunPark\FunPark.fsproj" />

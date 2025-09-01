@@ -1,9 +1,12 @@
-﻿open Expecto
+﻿namespace FunParkExpecto.Tests
+
+open Expecto
 open Shared
 open FunPark.Rides
 open FSharp.Data.UnitSystems.SI.UnitSymbols
 
-module DomainTests =
+[<AutoOpen>]
+module RideTests =
     let ridesTests =
         let referenceRide: RideView =
             { Id = new System.Guid()
@@ -139,7 +142,3 @@ module DomainTests =
                           Id = (Ride.value ride).Id
                           Tags = [] }
                       "Expected ride record to match" ]
-
-[<EntryPoint>]
-let main args =
-    runTestsWithCLIArgs [] args DomainTests.ridesTests

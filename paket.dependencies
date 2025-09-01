@@ -1,6 +1,7 @@
 source https://api.nuget.org/v3/index.json
 
 storage: none
+nuget Bogus
 nuget Expecto
 nuget FsCheck
 nuget Hedgehog
