@@ -24,9 +24,9 @@ module RideTests =
                   let ride =
                       Ride.create
                           { Name = "Roller Coaster"
-                            MinAge = PositiveNonZeroInt.create 5<yr>
-                            MinHeight = PositiveNonZeroInt.create 90<cm>
-                            WaitTime = PositiveNonZeroInt.create 25<s>
+                            MinAge = Natural.create 5<yr>
+                            MinHeight = Natural.create 90<cm>
+                            WaitTime = Natural.create 25<s>
                             Online = Some Online
                             Tags = [ FamilyFriendly ] }
 
@@ -46,9 +46,9 @@ module RideTests =
                       (fun () ->
                           Ride.create
                               { Name = ""
-                                MinAge = PositiveNonZeroInt.create 8<yr>
-                                MinHeight = PositiveNonZeroInt.create 100<cm>
-                                WaitTime = PositiveNonZeroInt.create 60<s>
+                                MinAge = Natural.create 8<yr>
+                                MinHeight = Natural.create 100<cm>
+                                WaitTime = Natural.create 60<s>
                                 Online = Some Online
                                 Tags = [ FamilyFriendly; Thrilling ] }
                           |> ignore)
@@ -59,9 +59,9 @@ module RideTests =
                   let ride =
                       Ride.create
                           { Name = "Roller Coaster"
-                            MinAge = PositiveNonZeroInt.create -10<yr>
-                            MinHeight = PositiveNonZeroInt.create 100<cm>
-                            WaitTime = PositiveNonZeroInt.create 60<s>
+                            MinAge = Natural.create -10<yr>
+                            MinHeight = Natural.create 100<cm>
+                            WaitTime = Natural.create 60<s>
                             Online = Some Online
                             Tags = [ FamilyFriendly; Thrilling ] }
 
@@ -77,9 +77,9 @@ module RideTests =
                   let ride =
                       Ride.create
                           { Name = "Roller Coaster"
-                            MinAge = PositiveNonZeroInt.create 8<yr>
-                            MinHeight = PositiveNonZeroInt.create -30<cm>
-                            WaitTime = PositiveNonZeroInt.create 60<s>
+                            MinAge = Natural.create 8<yr>
+                            MinHeight = Natural.create -30<cm>
+                            WaitTime = Natural.create 60<s>
                             Online = Some Online
                             Tags = [ FamilyFriendly; Thrilling ] }
 
@@ -95,9 +95,9 @@ module RideTests =
                   let ride =
                       Ride.create
                           { Name = "Roller Coaster"
-                            MinAge = PositiveNonZeroInt.create 8<yr>
-                            MinHeight = PositiveNonZeroInt.create 100<cm>
-                            WaitTime = PositiveNonZeroInt.create -25<s>
+                            MinAge = Natural.create 8<yr>
+                            MinHeight = Natural.create 100<cm>
+                            WaitTime = Natural.create -25<s>
                             Online = Some Online
                             Tags = [ FamilyFriendly; Thrilling ] }
 
@@ -113,9 +113,9 @@ module RideTests =
                   let ride =
                       Ride.create
                           { Name = "Roller Coaster"
-                            MinAge = PositiveNonZeroInt.create 8<yr>
-                            MinHeight = PositiveNonZeroInt.create 100<cm>
-                            WaitTime = PositiveNonZeroInt.create 60<s>
+                            MinAge = Natural.create 8<yr>
+                            MinHeight = Natural.create 100<cm>
+                            WaitTime = Natural.create 60<s>
                             Online = None
                             Tags = [ FamilyFriendly; Thrilling ] }
 
@@ -130,9 +130,9 @@ module RideTests =
                   let ride =
                       Ride.create
                           { Name = "Roller Coaster"
-                            MinAge = PositiveNonZeroInt.create 8<yr>
-                            MinHeight = PositiveNonZeroInt.create 100<cm>
-                            WaitTime = PositiveNonZeroInt.create 60<s>
+                            MinAge = Natural.create 8<yr>
+                            MinHeight = Natural.create 100<cm>
+                            WaitTime = Natural.create 60<s>
                             Online = Some Online
                             Tags = [] }
 

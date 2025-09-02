@@ -69,8 +69,8 @@ module Patrons =
                 | true ->
                     raise
                     <| ArgumentException "Invalid patron name: must not be empty, null, or whitespace"
-              Age = defaultArg (Option.map PositiveNonZeroInt.value minAge) 30<yr>
-              Height = defaultArg (Option.map PositiveNonZeroInt.value minHeight) 190<cm>
+              Age = defaultArg (Option.map Natural.value minAge) 30<yr>
+              Height = defaultArg (Option.map Natural.value minHeight) 190<cm>
               RewardPoints =
                 defaultArg
                     (match rewardPoints > 0<rp> with

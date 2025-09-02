@@ -10,7 +10,7 @@ module Domain =
 
     type PositiveNonZeroInt<[<Measure>] 'u> = private PositiveNonZeroInt of int<'u>
 
-    module PositiveNonZeroInt =
+    module Natural =
         let create x =
             if x > 0<_> then Some(PositiveNonZeroInt x) else None
 

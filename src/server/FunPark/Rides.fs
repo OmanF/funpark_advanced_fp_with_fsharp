@@ -62,9 +62,9 @@ module Rides =
                 | true ->
                     raise
                     <| ArgumentException "Invalid ride name: must not be empty, null, or whitespace"
-              MinAge = defaultArg (Option.map PositiveNonZeroInt.value minAge) 8<yr>
-              MinHeight = defaultArg (Option.map PositiveNonZeroInt.value minHeight) 100<cm>
-              WaitTime = defaultArg (Option.map PositiveNonZeroInt.value waitTime) 60<s>
+              MinAge = defaultArg (Option.map Natural.value minAge) 8<yr>
+              MinHeight = defaultArg (Option.map Natural.value minHeight) 100<cm>
+              WaitTime = defaultArg (Option.map Natural.value waitTime) 60<s>
               Online = defaultArg online Online
               Tags = tags }
 

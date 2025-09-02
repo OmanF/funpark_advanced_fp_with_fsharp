@@ -9,12 +9,7 @@ open FSharp.Data.UnitSystems.SI.UnitSymbols
 module RideGenerator =
     let genRide =
         gen {
-            // Generate a random string 1-50 characters long, filter out any which, by accident of generating algorithm, are empty or null
-            // let! name =
-            //     Gen.string (Range.linear 1 50) Gen.alpha
-            //     |> Gen.filter (fun s -> not (System.String.IsNullOrWhiteSpace s))
-
-            // Integrate with `Bogus` library to produce reproducible (by seed), human sounding names
+            // Integrate with `Bogus` library to produce reproducible (by seed), human names
             let! name =
                 gen {
                     let! fakerName = genBogus (fun faker -> faker.Name)
@@ -28,15 +23,15 @@ module RideGenerator =
 
             let! minAge =
                 Gen.int32 (Range.linear -20 90)
-                |> Gen.map (fun i -> PositiveNonZeroInt.create (LanguagePrimitives.Int32WithMeasure<yr> i))
+                |> Gen.map (fun i -> Natural.create (LanguagePrimitives.Int32WithMeasure<yr> i))
 
             let! minHeight =
                 Gen.int32 (Range.linear 50 220)
-                |> Gen.map (fun i -> PositiveNonZeroInt.create (LanguagePrimitives.Int32WithMeasure<cm> i))
+                |> Gen.map (fun i -> Natural.create (LanguagePrimitives.Int32WithMeasure<cm> i))
 
             let! waitTime =
                 Gen.int32 (Range.linear 30 180)
-                |> Gen.map (fun i -> PositiveNonZeroInt.create (LanguagePrimitives.Int32WithMeasure<s> i))
+                |> Gen.map (fun i -> Natural.create (LanguagePrimitives.Int32WithMeasure<s> i))
 
             let! online =
                 Gen.frequency
@@ -72,7 +67,7 @@ module RideGenerator =
         }
 
 [<AutoOpen>]
-module RideTests =
+module RideProperties =
     let propMinAgePositiveNonZero =
         property {
             let! ride = genRide

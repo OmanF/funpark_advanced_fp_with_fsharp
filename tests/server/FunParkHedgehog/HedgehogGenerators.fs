@@ -7,7 +7,7 @@ open Hedgehog
 [<AutoOpen>]
 module HedgehogGenerators =
     let private fakerFromSeed seed =
-        let faker = new Faker("en") // Default setting for Bogus is English, this is just a nicety to make it explicit
+        let faker = new Faker "en" // Default setting for Bogus is English, this is just a nicety to make it explicit
         faker.Random <- new Randomizer(seed)
         faker
 
