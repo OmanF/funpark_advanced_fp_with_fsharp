@@ -42,8 +42,8 @@ module Patrons =
         // Either alternative, tuple or curried parameters, require positional arguments, with no "nametag", making it harder to understand the purpose of each argument, and their correct order
         type PatronConstructor =
             { Name: string
-              Age: PositiveNonZeroInt<yr> option
-              Height: PositiveNonZeroInt<cm> option
+              Age: Natural<yr> option
+              Height: Natural<cm> option
               RewardPoints: int<rp>
               TicketTier: TicketTier option
               FreePasses: FreePass list

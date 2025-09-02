@@ -8,10 +8,10 @@ module Domain =
     [<Measure>]
     type yr // Years
 
-    type PositiveNonZeroInt<[<Measure>] 'u> = private PositiveNonZeroInt of int<'u>
+    type Natural<[<Measure>] 'u> = private Natural of int<'u>
 
     module Natural =
         let create x =
-            if x > 0<_> then Some(PositiveNonZeroInt x) else None
+            if x > 0<_> then Some(Natural x) else None
 
-        let value (PositiveNonZeroInt x) = x
+        let value (Natural x) = x

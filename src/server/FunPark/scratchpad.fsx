@@ -18,9 +18,9 @@ let f = Faker()
 let myRide =
     Ride.create
         { Name = "Ferris Wheel"
-          MinAge = PositiveNonZeroInt.create (f.Random.Int(-25, 6) * 1<yr>)
-          MinHeight = PositiveNonZeroInt.create (f.Random.Int(-25, 90) * 1<cm>)
-          WaitTime = PositiveNonZeroInt.create (f.Random.Int(-25, 30) * 1<s>)
+          MinAge = Natural.create (f.Random.Int(-25, 6) * 1<yr>)
+          MinHeight = Natural.create (f.Random.Int(-25, 90) * 1<cm>)
+          WaitTime = Natural.create (f.Random.Int(-25, 30) * 1<s>)
           Online = Online |> Some
           Tags = [ FamilyFriendly; Thrilling ] }
 
@@ -32,8 +32,8 @@ let myFreePass =
 let myPatron =
     Patron.create
         { Name = f.Name.FullName()
-          Age = PositiveNonZeroInt.create (f.Random.Int(-25, 25) * 1<yr>)
-          Height = PositiveNonZeroInt.create (f.Random.Int(-25, 175) * 1<cm>)
+          Age = Natural.create (f.Random.Int(-25, 25) * 1<yr>)
+          Height = Natural.create (f.Random.Int(-25, 175) * 1<cm>)
           RewardPoints = f.Random.Int(-25, 50) * 1<rp>
           TicketTier = Standard |> Some
           FreePasses = [ myFreePass ]

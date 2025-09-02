@@ -39,9 +39,9 @@ module Rides =
         // Either alternative, tuple or curried parameters, require positional arguments, with no "nametag", making it harder to understand the purpose of each argument, and their correct order
         type RideConstructor =
             { Name: string
-              MinAge: PositiveNonZeroInt<yr> option
-              MinHeight: PositiveNonZeroInt<cm> option
-              WaitTime: PositiveNonZeroInt<s> option
+              MinAge: Natural<yr> option
+              MinHeight: Natural<cm> option
+              WaitTime: Natural<s> option
               Online: RideStatus option
               Tags: RideTags list }
 

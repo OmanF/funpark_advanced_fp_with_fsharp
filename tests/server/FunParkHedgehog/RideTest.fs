@@ -68,7 +68,7 @@ module RideGenerator =
 
 [<AutoOpen>]
 module RideProperties =
-    let propMinAgePositiveNonZero =
+    let propMinAgeNatural =
         property {
             let! ride = genRide
             let rideView = Ride.value ride
@@ -79,7 +79,7 @@ module RideProperties =
                 failwithf "Ride.MinAge is not positive: %A" rideView.MinAge
         }
 
-    let propMinHeightPositiveNonZero =
+    let propMinHeightNatural =
         property {
             let! ride = genRide
             let rideView = Ride.value ride
@@ -90,7 +90,7 @@ module RideProperties =
                 failwithf "Ride.MinHeight is not positive: %A" rideView.MinHeight
         }
 
-    let propMinWaitTimePositiveNonZero =
+    let propMinWaitTimeNatural =
         property {
             let! ride = genRide
             let rideView = Ride.value ride
