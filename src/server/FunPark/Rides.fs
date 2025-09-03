@@ -38,7 +38,7 @@ module Rides =
         // Utility type for constructing a Ride: allows for named parameters to be used as input for the constructor
         // Either alternative, tuple or curried parameters, require positional arguments, with no "nametag", making it harder to understand the purpose of each argument, and their correct order
         type RideConstructor =
-            { Name: string
+            { Name: ContentfulString option
               MinAge: Natural<yr> option
               MinHeight: Natural<cm> option
               WaitTime: Natural<s> option
@@ -48,20 +48,15 @@ module Rides =
         // Annotating the function output's type as `Ride`, the private type, is required since `Ride` and `RideView` have the same fields, and `RideView` comes later, unless the function is annotated it will be assigned the wrong type, the public `RideView` type
         // The input's type is inferred as `RideConstructor` since it's missing the `Id` field
         let create
-            { Name = name
-              MinAge = minAge
-              MinHeight = minHeight
-              WaitTime = waitTime
-              Online = online
-              Tags = tags }
+            ({ Name = name
+               MinAge = minAge
+               MinHeight = minHeight
+               WaitTime = waitTime
+               Online = online
+               Tags = tags }: RideConstructor)
             : Ride =
             { Id = Guid.NewGuid()
-              Name =
-                match String.IsNullOrWhiteSpace name with
-                | false -> name
-                | true ->
-                    raise
-                    <| ArgumentException "Invalid ride name: must not be empty, null, or whitespace"
+              Name = defaultArg (Option.map (fun (n: ContentfulString) -> n.Value) name) "Generic ride!"
               MinAge = defaultArg (Option.map Natural.value minAge) 8<yr>
               MinHeight = defaultArg (Option.map Natural.value minHeight) 100<cm>
               WaitTime = defaultArg (Option.map Natural.value waitTime) 60<s>

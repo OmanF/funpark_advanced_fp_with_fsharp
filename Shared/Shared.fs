@@ -1,5 +1,7 @@
 ﻿namespace Shared
 
+open System
+
 [<AutoOpen>]
 module Domain =
     [<Measure>]
@@ -7,6 +9,25 @@ module Domain =
 
     [<Measure>]
     type yr // Years
+
+    // Take directly from Scott Wlaschin's GH gist on constrained types (minus restricting string's length to 50): https://gist.github.com/swlaschin/54cfff886669ccab895a#file-constrainedtypesexamples-fsx
+    type ContentfulString private (str) =
+        static member Create str =
+            if String.IsNullOrWhiteSpace str then
+                None
+            else
+                Some(ContentfulString str)
+
+        member _.Value = str
+
+    type ValidFreePassStartDate private (date) =
+        static member Create date =
+            if date < DateTime.UtcNow then
+                Some(ValidFreePassStartDate date)
+            else
+                None
+
+        member _.Value = date
 
     type Natural<[<Measure>] 'u> = private Natural of int<'u>
 

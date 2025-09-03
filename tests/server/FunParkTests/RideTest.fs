@@ -23,7 +23,7 @@ module RideTests =
               <| fun _ ->
                   let ride =
                       Ride.create
-                          { Name = "Roller Coaster"
+                          { Name = ContentfulString.Create "Roller Coaster"
                             MinAge = Natural.create 5<yr>
                             MinHeight = Natural.create 90<cm>
                             WaitTime = Natural.create 25<s>
@@ -40,25 +40,26 @@ module RideTests =
                           Tags = [ FamilyFriendly ] }
                       "Expected ride record to match"
 
-              testCase "Create a ride with an invalid name"
-              <| fun _ ->
-                  Expect.throws
-                      (fun () ->
-                          Ride.create
-                              { Name = ""
-                                MinAge = Natural.create 8<yr>
-                                MinHeight = Natural.create 100<cm>
-                                WaitTime = Natural.create 60<s>
-                                Online = Some Online
-                                Tags = [ FamilyFriendly; Thrilling ] }
-                          |> ignore)
-                      "Expected an exception for empty ride name"
+              // Test case for null, empty, or whitespace only string is now void as `Name` attribute is set to `ContentfulString` type, ensuring name is neither of those at the type level, not at runtime
+              //   testCase "Create a ride with an invalid name"
+              //   <| fun _ ->
+              //       Expect.throws
+              //           (fun () ->
+              //               Ride.create
+              //                   { Name = ContentfulString.Create "Roller Coaster"
+              //                     MinAge = Natural.create 8<yr>
+              //                     MinHeight = Natural.create 100<cm>
+              //                     WaitTime = Natural.create 60<s>
+              //                     Online = Some Online
+              //                     Tags = [ FamilyFriendly; Thrilling ] }
+              //               |> ignore)
+              //           "Expected an exception for empty ride name"
 
               testCase "Create a ride with an invalid minimal age"
               <| fun _ ->
                   let ride =
                       Ride.create
-                          { Name = "Roller Coaster"
+                          { Name = ContentfulString.Create "Roller Coaster"
                             MinAge = Natural.create -10<yr>
                             MinHeight = Natural.create 100<cm>
                             WaitTime = Natural.create 60<s>
@@ -76,7 +77,7 @@ module RideTests =
               <| fun _ ->
                   let ride =
                       Ride.create
-                          { Name = "Roller Coaster"
+                          { Name = ContentfulString.Create "Roller Coaster"
                             MinAge = Natural.create 8<yr>
                             MinHeight = Natural.create -30<cm>
                             WaitTime = Natural.create 60<s>
@@ -94,7 +95,7 @@ module RideTests =
               <| fun _ ->
                   let ride =
                       Ride.create
-                          { Name = "Roller Coaster"
+                          { Name = ContentfulString.Create "Roller Coaster"
                             MinAge = Natural.create 8<yr>
                             MinHeight = Natural.create 100<cm>
                             WaitTime = Natural.create -25<s>
@@ -112,7 +113,7 @@ module RideTests =
               <| fun _ ->
                   let ride =
                       Ride.create
-                          { Name = "Roller Coaster"
+                          { Name = ContentfulString.Create "Roller Coaster"
                             MinAge = Natural.create 8<yr>
                             MinHeight = Natural.create 100<cm>
                             WaitTime = Natural.create 60<s>
@@ -129,7 +130,7 @@ module RideTests =
               <| fun _ ->
                   let ride =
                       Ride.create
-                          { Name = "Roller Coaster"
+                          { Name = ContentfulString.Create "Roller Coaster"
                             MinAge = Natural.create 8<yr>
                             MinHeight = Natural.create 100<cm>
                             WaitTime = Natural.create 60<s>

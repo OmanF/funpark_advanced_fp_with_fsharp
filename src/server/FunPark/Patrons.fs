@@ -41,7 +41,7 @@ module Patrons =
         // Utility type for constructing a Patron: allows for named parameters to be used as input for the constructor
         // Either alternative, tuple or curried parameters, require positional arguments, with no "nametag", making it harder to understand the purpose of each argument, and their correct order
         type PatronConstructor =
-            { Name: string
+            { Name: ContentfulString option
               Age: Natural<yr> option
               Height: Natural<cm> option
               RewardPoints: int<rp>
@@ -53,22 +53,17 @@ module Patrons =
         // Annotating the function output's type as `Patron`, the private type, is required since `Patron` and `PatronView` have the same fields, and `PatronView` comes later, unless the function is annotated it will be assigned the wrong type, the public `PatronView` type
         // The input's type is inferred as `PatronConstructor` since it's missing the `Id` field
         let create
-            { Name = name
-              Age = minAge
-              Height = minHeight
-              RewardPoints = rewardPoints
-              TicketTier = ticketTier
-              FreePasses = freePasses
-              Likes = likes
-              Dislikes = dislikes }
+            ({ Name = name
+               Age = minAge
+               Height = minHeight
+               RewardPoints = rewardPoints
+               TicketTier = ticketTier
+               FreePasses = freePasses
+               Likes = likes
+               Dislikes = dislikes }: PatronConstructor)
             : Patron =
             { Id = Guid.NewGuid()
-              Name =
-                match String.IsNullOrWhiteSpace name with
-                | false -> name
-                | true ->
-                    raise
-                    <| ArgumentException "Invalid patron name: must not be empty, null, or whitespace"
+              Name = defaultArg (Option.map (fun (n: ContentfulString) -> n.Value) name) "Generic patron!"
               Age = defaultArg (Option.map Natural.value minAge) 30<yr>
               Height = defaultArg (Option.map Natural.value minHeight) 190<cm>
               RewardPoints =

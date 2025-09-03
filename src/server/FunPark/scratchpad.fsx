@@ -17,7 +17,7 @@ let f = Faker()
 
 let myRide =
     Ride.create
-        { Name = "Ferris Wheel"
+        { Name = ContentfulString.Create "Ferris Wheel"
           MinAge = Natural.create (f.Random.Int(-25, 6) * 1<yr>)
           MinHeight = Natural.create (f.Random.Int(-25, 90) * 1<cm>)
           WaitTime = Natural.create (f.Random.Int(-25, 30) * 1<s>)
@@ -27,11 +27,11 @@ let myRide =
 let myFreePass =
     FreePass.create
         { Ride = myRide
-          ValidFrom = DateTime.UtcNow }
+          ValidFrom = ValidFreePassStartDate.Create DateTime.UtcNow }
 
 let myPatron =
     Patron.create
-        { Name = f.Name.FullName()
+        { Name = ContentfulString.Create <| f.Name.FullName()
           Age = Natural.create (f.Random.Int(-25, 25) * 1<yr>)
           Height = Natural.create (f.Random.Int(-25, 175) * 1<cm>)
           RewardPoints = f.Random.Int(-25, 50) * 1<rp>

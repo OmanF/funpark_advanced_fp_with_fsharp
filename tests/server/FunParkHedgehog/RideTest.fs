@@ -15,10 +15,12 @@ module RideGenerator =
                     let! fakerName = genBogus (fun faker -> faker.Name)
                     let! size = Gen.int32 (Range.linear 1 50)
 
-                    return!
+                    let! name =
                         if size < 5 then Gen.constant "Mr. O"
                         elif size < 10 then Gen.constant (fakerName.FirstName())
                         else Gen.constant (fakerName.FullName())
+
+                    return name |> ContentfulString.Create
                 }
 
             let! minAge =
