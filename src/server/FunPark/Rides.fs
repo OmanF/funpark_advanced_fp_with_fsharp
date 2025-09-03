@@ -61,7 +61,7 @@ module Rides =
               MinHeight = defaultArg (Option.map Natural.value minHeight) 100<cm>
               WaitTime = defaultArg (Option.map Natural.value waitTime) 60<s>
               Online = defaultArg online Online
-              Tags = tags }
+              Tags = List.distinct tags }
 
         // Annotation both required: since `Ride` and `RideView` have the same fields, and `RideView` comes later, unless `ride` is annotated, the compiler will assign its type as `RideView` which will result in a logic error
         // But, also helpful in distinguishing between the fact input is a `Ride`, the private type, and the output is `RideView`, the publicly accessible type

@@ -42,21 +42,30 @@ module RideGenerator =
                       1, Gen.constant None ]
 
             let! tags =
-                typeof<RideTags>
-                |> Reflection.FSharpType.GetUnionCases
-                |> Array.map (fun case ->
-                    gen {
-                        let! includeTag = Gen.bool
+                let rec repeatedAccumulation n f acc =
+                    if n <= 0 then
+                        acc
+                    else
+                        repeatedAccumulation (n - 1) f (f () @ acc)
 
-                        return
-                            if includeTag then
-                                Some(Reflection.FSharpValue.MakeUnion(case, [||]) :?> RideTags)
-                            else
-                                None
-                    })
-                |> Array.toList
-                |> ListGen.sequence
-                |> Gen.map (List.choose id)
+                let tagSelector () =
+                    typeof<RideTags>
+                    |> Reflection.FSharpType.GetUnionCases
+                    |> Array.fold
+                        (fun acc case ->
+                            match System.Random().NextDouble() <= 0.5 with
+                            | true ->
+                                let tag = Reflection.FSharpValue.MakeUnion(case, [||]) :?> RideTags
+                                tag :: acc
+                            | false -> acc)
+                        []
+
+                Gen.frequency
+                    [ // 2-in-3: one pass, creating tags probabilistically
+                      2, tagSelector () |> Gen.constant
+
+                      // 1-in-3: three passes, creating tags probabilistically
+                      1, repeatedAccumulation 3 tagSelector [] |> Gen.constant ]
 
             return
                 Ride.create
@@ -101,4 +110,15 @@ module RideProperties =
                 ()
             else
                 failwithf "Ride.WaitTime is not positive: %A" rideView.WaitTime
+        }
+
+    let propNoDuplicateTags =
+        property {
+            let! ride = genRide
+            let rideView = Ride.value ride
+
+            if List.distinct rideView.Tags |> List.length = List.length rideView.Tags then
+                ()
+            else
+                failwithf "Ride.Tags contains duplicates: %A" rideView.Tags
         }

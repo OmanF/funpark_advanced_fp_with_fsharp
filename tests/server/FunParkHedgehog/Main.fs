@@ -15,4 +15,8 @@ let main _ =
     let minWaitTimeResult = Property.check propMinWaitTimeNatural
     printfn "%A" minWaitTimeResult
 
+    printfn "Testing: All Ride's Tags have no duplicates"
+    let noDuplicateTagsResult = Property.check propNoDuplicateTags
+    printfn "%A" noDuplicateTagsResult
+
     0
