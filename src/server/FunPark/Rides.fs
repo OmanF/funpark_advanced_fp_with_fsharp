@@ -59,7 +59,11 @@ module Rides =
               Name = defaultArg (Option.map (fun (n: ContentfulString) -> n.Value) name) "Generic ride!"
               MinAge = defaultArg (Option.map Natural.value minAge) 8<yr>
               MinHeight = defaultArg (Option.map Natural.value minHeight) 100<cm>
-              WaitTime = defaultArg (Option.map Natural.value waitTime) 60<s>
+              WaitTime =
+                if online = Some Offline then
+                    0<s>
+                else
+                    defaultArg (Option.map Natural.value waitTime) 60<s>
               Online = defaultArg online Online
               Tags = List.distinct tags }
 
