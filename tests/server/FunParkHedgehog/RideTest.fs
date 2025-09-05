@@ -105,6 +105,7 @@ module RideProperties =
         property {
             let! ride = genRide
             let rideView = Ride.value ride
+            where (rideView.Online <> Offline) // This test is only true for online rides! Rides that are offline have wait time of 0, tested in another test in this suite
 
             if rideView.WaitTime > 0<s> then
                 ()
@@ -121,4 +122,18 @@ module RideProperties =
                 ()
             else
                 failwithf "Ride.Tags contains duplicates: %A" rideView.Tags
+        }
+
+    let propOfflineWaitTimeZero =
+        property {
+            let! ride = genRide
+            let rideView = Ride.value ride
+
+            if rideView.Online = Offline then
+                if rideView.WaitTime = 0<s> then
+                    ()
+                else
+                    failwithf "Ride.WaitTime is not zero for an offline ride: %A" rideView.WaitTime
+            else
+                ()
         }

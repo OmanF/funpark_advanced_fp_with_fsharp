@@ -19,4 +19,8 @@ let main _ =
     let noDuplicateTagsResult = Property.check propNoDuplicateTags
     printfn "%A" noDuplicateTagsResult
 
+    printfn "Testing: All offline Ride's WaitTime is zero"
+    let offlineWaitTimeZeroResult = Property.check propOfflineWaitTimeZero
+    printfn "%A" offlineWaitTimeZeroResult
+
     0
