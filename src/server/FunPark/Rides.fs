@@ -14,6 +14,7 @@ module Rides =
         | Online
         | Offline
 
+    [<CustomEquality; NoComparison>]
     type Ride =
         private
             { Id: Guid
@@ -23,6 +24,13 @@ module Rides =
               WaitTime: int<s>
               Online: RideStatus
               Tags: RideTags list }
+
+        override this.Equals obj =
+            match obj with
+            | :? Ride as other -> this.Id = other.Id
+            | _ -> false
+
+        override this.GetHashCode() = hash this.Id
 
     // Public view type for Ride, exposes all fields for dot-access
     type RideView =

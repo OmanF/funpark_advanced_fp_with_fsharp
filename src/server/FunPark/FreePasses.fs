@@ -5,11 +5,19 @@ open Shared
 open Rides
 
 module FreePasses =
+    [<CustomEquality; NoComparison>]
     type FreePass =
         private
             { Id: Guid
               Ride: Ride
               ValidFrom: DateTime }
+
+        override this.Equals obj =
+            match obj with
+            | :? FreePass as other -> this.Ride = other.Ride && this.ValidFrom = other.ValidFrom
+            | _ -> false
+
+        override this.GetHashCode() = hash (this.Ride, this.ValidFrom)
 
     // Public view type for FreePass, exposes all fields for dot-access
     type FreePassView =

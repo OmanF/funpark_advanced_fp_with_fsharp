@@ -16,9 +16,12 @@ module RideGenerator =
                     let! size = Gen.int32 (Range.linear 1 50)
 
                     let! name =
-                        if size < 5 then Gen.constant "Mr. O"
-                        elif size < 10 then Gen.constant (fakerName.FirstName())
-                        else Gen.constant (fakerName.FullName())
+                        if size < 5 then
+                            Gen.constant "Mr. O"
+                        elif size >= 5 && size < 10 then
+                            Gen.constant (fakerName.FirstName())
+                        else
+                            Gen.constant (fakerName.FullName())
 
                     return name |> ContentfulString.Create
                 }

@@ -13,6 +13,7 @@ module Patrons =
         | Premium
         | VIP
 
+    [<CustomEquality; NoComparison>]
     type Patron =
         private
             { Id: Guid
@@ -24,6 +25,13 @@ module Patrons =
               FreePasses: FreePass list
               Likes: string list
               Dislikes: string list }
+
+        override this.Equals obj =
+            match obj with
+            | :? Patron as other -> this.Id = other.Id
+            | _ -> false
+
+        override this.GetHashCode() = hash this.Id
 
     // Public view type for Patron, exposes all fields for dot-access
     type PatronView =
