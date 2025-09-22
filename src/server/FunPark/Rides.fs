@@ -53,6 +53,16 @@ module Rides =
               Online: RideStatus option
               Tags: RideTags list }
 
+        // Auxiliary type for the following `update` function, because I dislike passing anonymous records as parameters
+        type RideUpdate =
+            { Id: Guid option
+              Name: ContentfulString option
+              MinAge: Natural<yr> option
+              MinHeight: Natural<cm> option
+              WaitTime: Natural<s> option
+              Online: RideStatus option
+              Tags: RideTags list }
+
         // Annotating the function output's type as `Ride`, the private type, is required since `Ride` and `RideView` have the same fields, and `RideView` comes later, unless the function is annotated it will be assigned the wrong type, the public `RideView` type
         // The input's type is inferred as `RideConstructor` since it's missing the `Id` field
         let create
@@ -85,3 +95,13 @@ module Rides =
               WaitTime = ride.WaitTime
               Online = ride.Online
               Tags = ride.Tags }
+
+        let update (ride: Ride) (update: RideUpdate) =
+            { ride with
+                Id = defaultArg update.Id ride.Id
+                Name = defaultArg (Option.map (fun (n: ContentfulString) -> n.Value) update.Name) ride.Name
+                MinAge = defaultArg (Option.map Natural.value update.MinAge) ride.MinAge
+                MinHeight = defaultArg (Option.map Natural.value update.MinHeight) ride.MinHeight
+                WaitTime = defaultArg (Option.map Natural.value update.WaitTime) ride.WaitTime
+                Online = defaultArg update.Online ride.Online
+                Tags = List.distinct update.Tags }
