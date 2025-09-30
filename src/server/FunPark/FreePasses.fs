@@ -14,10 +14,10 @@ module FreePasses =
 
         override this.Equals obj =
             match obj with
-            | :? FreePass as other -> this.Ride = other.Ride && this.ValidFrom = other.ValidFrom
+            | :? FreePass as other -> this.ValidFrom = other.ValidFrom (*&& this.Ride = other.Ride*) // For some reason source material considers FreePass equal based on ValidFrom only
             | _ -> false
 
-        override this.GetHashCode() = hash (this.Ride, this.ValidFrom)
+        override this.GetHashCode() = hash this.ValidFrom (*, this.Ride*)
 
     // Public view type for FreePass, exposes all fields for dot-access
     type FreePassView =
