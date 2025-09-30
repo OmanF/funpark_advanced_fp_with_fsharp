@@ -8,6 +8,11 @@ And while I do admire Elixir, and enjoyed hobby-coding in it in the past, today 
 This repo is a challenge, and journey by an F# admirer, but **by no means an expert**, into seeing how easy reimplementing that system in F# could be.  
 **Oh, boy!** 😄
 
+## Shameless plug
+
+As I progress with the project I keep track of what I did, and why I did it, in a [blog series](https://omanfk.hashnode.dev/series/fsharpjourney).  
+It gives insights to my thinking and the decisions and trade-offs I made on each step. (And hey, I just like writing it, and the rest of the blog, too!) (See what I did there?! 🤪)
+
 ## P.S
 
 If you like F#, but Elixir (and Erlang) are more your style, check out the [Gleam programming language](https://gleam.run/).
