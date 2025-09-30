@@ -8,14 +8,16 @@ let main _ =
           "MinHeightNatural"
           "MinWaitTimeNatural"
           "NoDuplicateTags"
-          "OfflineWaitTimeZero" ]
+          "OfflineWaitTimeZero"
+          "FreePassNotInPast" ]
 
     let testsFunctions =
         [ propMinAgeNatural
           propMinHeightNatural
           propMinWaitTimeNatural
           propNoDuplicateTags
-          propOfflineWaitTimeZero ]
+          propOfflineWaitTimeZero
+          propFreePassNotInFuture ]
 
     let testsZipped = List.zip testsNames testsFunctions
 
