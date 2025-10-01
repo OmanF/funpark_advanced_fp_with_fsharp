@@ -6,6 +6,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="RideTest.fs" />
+    <Compile Include="FreePassTest.fs" />
     <Compile Include="Main.fs" />
   </ItemGroup>
   <ItemGroup>
