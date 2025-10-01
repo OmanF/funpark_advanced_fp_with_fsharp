@@ -22,7 +22,7 @@ module Domain =
 
     type ValidFreePassStartDate private (date) =
         static member Create date =
-            if date < DateTime.UtcNow then
+            if date <= DateTime.UtcNow then
                 Some(ValidFreePassStartDate date)
             else
                 None

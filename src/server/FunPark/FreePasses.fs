@@ -27,7 +27,7 @@ module FreePasses =
 
     module FreePass =
         // Utility type for constructing a FreePass: allows for named parameters to be used as input for the constructor
-        // Either alternative, tuple or curried parameters, require positional arguments, with no "nametag", making it harder to understand the purpose of each argument, and their correct order
+        // Either alternative, tuple or curried parameters, require positional arguments, with no "name tag", making it harder to understand the purpose of each argument, and their correct order
         type FreePassConstructor =
             { Ride: Ride
               ValidFrom: ValidFreePassStartDate option }

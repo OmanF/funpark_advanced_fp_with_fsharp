@@ -11,7 +11,7 @@ module FreePassGenerator =
         gen {
             let now = DateTime.UtcNow
             let! ride = genRide
-            let! validFromGenerator = Gen.dateTime (Range.constant (now.AddMinutes -5) now)
+            let! validFromGenerator = Gen.dateTime (Range.constant (now.AddMinutes -5) (now.AddYears 1))
             let validFrom = validFromGenerator |> ValidFreePassStartDate.Create
 
             return FreePass.create { Ride = ride; ValidFrom = validFrom }
