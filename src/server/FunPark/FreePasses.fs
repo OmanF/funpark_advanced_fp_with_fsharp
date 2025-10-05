@@ -5,33 +5,47 @@ open Shared
 open Rides
 
 module FreePasses =
-    [<CustomEquality; NoComparison>]
+    [<CustomEquality; CustomComparison>]
     type FreePass =
         private
             { Id: Guid
               Ride: Ride
               ValidFrom: DateTime }
 
-        override this.Equals obj =
-            match obj with
+        override this.Equals otherFreePass =
+            match otherFreePass with
+            // Equality is based on both `Ride` and `ValidFrom` since `FreePass` is tied, defined actually, by both
             | :? FreePass as other -> this.Ride = other.Ride && this.ValidFrom = other.ValidFrom
             | _ -> false
 
-        override this.GetHashCode() = hash (this.Ride, this.ValidFrom)
+        override this.GetHashCode() =
+            HashCode.Combine(hash this.Ride, hash this.ValidFrom)
 
-    // Public view type for FreePass, exposes all fields for dot-access
+        interface IComparable with
+            member this.CompareTo otherFreePass =
+                match otherFreePass with
+                // Ordering over `ValidFrom` only, but can only compare `FreePasses` for the same `Ride`
+                | :? FreePass as other ->
+                    if this.Ride <> other.Ride then
+                        invalidArg "otherFreePass" "Can't compare FreePasses for different Rides"
+                    else
+                        this.ValidFrom.CompareTo other.ValidFrom
+                | _ -> invalidArg "otherFreePass" "Can't compare values of different types"
+
+    // Public view type for `FreePass`, exposes all fields for dot-access
     type FreePassView =
         { Id: Guid
           Ride: RideView
           ValidFrom: DateTime }
 
     module FreePass =
-        // Utility type for constructing a FreePass: allows for named parameters to be used as input for the constructor
-        // Either alternative, tuple or curried parameters, require positional arguments, with no "nametag", making it harder to understand the purpose of each argument, and their correct order
+        // Utility type for constructing a `FreePass`: allows for named parameters to be used as input for the constructor
+        // Either alternative, tuple or curried parameters, require positional arguments, with no tags, making it harder to understand the purpose of each argument, and their correct order
         type FreePassConstructor =
             { Ride: Ride
               ValidFrom: ValidFreePassStartDate option }
 
+        // Auxiliary type for the following `update` function, because I dislike passing anonymous records as parameters
         type FreePassUpdate =
             { Id: Guid option
               Ride: Ride option
@@ -59,6 +73,7 @@ module FreePasses =
 
         // Annotation NOT required, `FreePassUpdate` differs from `FreePassConstructor` by the `Id` field, but as always, explicit is better in a complex domain
         // `FreePassUpdate` required since, as with the tests, `FreePass` is a private type and we can't **directly** assign it, or its members, to any constructor function, only a public clone of it
+        // Is it likely, not to mention smart, that a `FreePass`'s `Id` would change? No, but an `update` function should be able to update any field, including the `Id`, even if it's not a common operation
         let update (freePass: FreePass) (update: FreePassUpdate) =
             { freePass with
                 Id = update.Id |> Option.defaultValue freePass.Id // Compare with updating the `Ride` field... both approaches are the same, current one is starting at F#6

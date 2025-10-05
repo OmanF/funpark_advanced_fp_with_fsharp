@@ -22,7 +22,9 @@ module Domain =
 
     type ValidFreePassStartDate private (date) =
         static member Create date =
-            if date < DateTime.UtcNow then
+            // ValidFrom date must be in the past or present, since it represents an already issued FreePass
+            // A FreePass is issued and is "active" since that moment. There is no concept of a FreePass being issued in the future
+            if date <= DateTime.UtcNow then
                 Some(ValidFreePassStartDate date)
             else
                 None
