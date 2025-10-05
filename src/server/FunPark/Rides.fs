@@ -23,7 +23,7 @@ module Rides =
               MinHeight: int<cm>
               WaitTime: int<s>
               Online: RideStatus
-              Tags: RideTags list }
+              Tags: Set<RideTags> }
 
         override this.Equals obj =
             match obj with
@@ -40,7 +40,7 @@ module Rides =
           MinHeight: int<cm>
           WaitTime: int<s>
           Online: RideStatus
-          Tags: RideTags list }
+          Tags: Set<RideTags> }
 
     module Ride =
         // Utility type for constructing a Ride: allows for named parameters to be used as input for the constructor
@@ -61,7 +61,7 @@ module Rides =
               MinHeight: Natural<cm> option
               WaitTime: Natural<s> option
               Online: RideStatus option
-              Tags: RideTags list }
+              Tags: RideTags list option }
 
         // Annotating the function output's type as `Ride`, the private type, is required since `Ride` and `RideView` have the same fields, and `RideView` comes later, unless the function is annotated it will be assigned the wrong type, the public `RideView` type
         // The input's type is inferred as `RideConstructor` since it's missing the `Id` field
@@ -83,7 +83,7 @@ module Rides =
                 else
                     defaultArg (Option.map Natural.value waitTime) 60<s>
               Online = defaultArg online Online
-              Tags = List.distinct tags }
+              Tags = Set.ofList tags }
 
         // Annotation both required: since `Ride` and `RideView` have the same fields, and `RideView` comes later, unless `ride` is annotated, the compiler will assign its type as `RideView` which will result in a logic error
         // But, also helpful in distinguishing between the fact input is a `Ride`, the private type, and the output is `RideView`, the publicly accessible type
@@ -96,12 +96,31 @@ module Rides =
               Online = ride.Online
               Tags = ride.Tags }
 
+        // Annotation NOT required, `RideUpdate` differs from `RideConstructor` by the `Id` field, but as always, explicit is better in a complex domain
+        // `RideUpdate` required since, as with the tests, `Ride` is a private type and we can't **directly** assign it, or its members, to any constructor function, only a public clone of it
         let update (ride: Ride) (update: RideUpdate) =
             { ride with
-                Id = defaultArg update.Id ride.Id
-                Name = defaultArg (Option.map (fun (n: ContentfulString) -> n.Value) update.Name) ride.Name
-                MinAge = defaultArg (Option.map Natural.value update.MinAge) ride.MinAge
-                MinHeight = defaultArg (Option.map Natural.value update.MinHeight) ride.MinHeight
-                WaitTime = defaultArg (Option.map Natural.value update.WaitTime) ride.WaitTime
-                Online = defaultArg update.Online ride.Online
-                Tags = List.distinct update.Tags }
+                // Using `Option.defaultValue` instead of `defaultArg` to show the stylistic choices in F# (since F#6, in this case)
+                Id = update.Id |> Option.defaultValue ride.Id
+                Name =
+                    update.Name
+                    |> Option.map (fun (n: ContentfulString) -> n.Value)
+                    |> Option.defaultValue ride.Name
+                MinAge = update.MinAge |> Option.map Natural.value |> Option.defaultValue ride.MinAge
+                MinHeight =
+                    update.MinHeight
+                    |> Option.map Natural.value
+                    |> Option.defaultValue ride.MinHeight
+                WaitTime = update.WaitTime |> Option.map Natural.value |> Option.defaultValue ride.WaitTime
+                Online = update.Online |> Option.defaultValue ride.Online
+                Tags =
+                    // Adds to the existing tags (i.e., `ride.Tags`), or wipes the tags set clean completely
+                    // Depending on the value of `update.Tags`:
+                    // `None` - wipes the tags set clean, i.e., new tags set is the empty set!
+                    // `Some []` - retains `ride.Tags`, making no changes
+                    // `Some [tag1; tag2...] - **Adds** tags from the list not already on `ride.Tags`
+                    // This is done to make **adding** new tags easier - just pass the new tags in a list, without needing to know, or pass in, the existing tags
+                    // The tradeoff is that removing certain tag(s) is more cumbersome: first wipe the set clean, then pass the **entire new set**, but that is a less common operation - tags should be assigned after some thought
+                    update.Tags
+                    |> Option.map (fun ts -> Set.union (Set.ofList ts) ride.Tags)
+                    |> Option.defaultValue Set.empty }

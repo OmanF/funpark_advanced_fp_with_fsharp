@@ -32,12 +32,23 @@ module FreePasses =
             { Ride: Ride
               ValidFrom: ValidFreePassStartDate option }
 
+        type FreePassUpdate =
+            { Id: Guid option
+              Ride: Ride option
+              ValidFrom: ValidFreePassStartDate option }
+
         // Annotating the function output's type as `FreePass`, the private type, is required since `FreePass` and `FreePassView` have the same fields, and `FreePassView` comes later, unless the function is annotated it will be assigned the wrong type, the public `FreePassView` type
         // The input's type is inferred as `FreePassConstructor` since it's missing the `Id` field
         let create { Ride = ride; ValidFrom = validFrom } : FreePass =
             { Id = Guid.NewGuid()
               Ride = ride
-              ValidFrom = defaultArg (Option.map (fun (d: ValidFreePassStartDate) -> d.Value) validFrom) DateTime.UtcNow }
+              // Prior to F#6+ could only be written as:
+              // ValidFrom = defaultArg (Option.map (fun (d: ValidFreePassStartDate) -> d.Value) validFrom) DateTime.UtcNow
+              // But now can be simplified to:
+              ValidFrom =
+                validFrom
+                |> Option.map (fun d -> d.Value)
+                |> Option.defaultValue DateTime.UtcNow }
 
         // Annotation both required: since `FreePass` and `FreePassView` have the same fields, and `FreePassView` comes later, unless `freePass` is annotated, the compiler will assign its type as `FreePassView` which will result in a logic error
         // But, also helpful in distinguishing between the fact input is a `FreePass`, the private type, and the output is `FreePassView`, the publicly accessible type
@@ -45,3 +56,14 @@ module FreePasses =
             { Id = freePass.Id
               Ride = Ride.value freePass.Ride
               ValidFrom = freePass.ValidFrom }
+
+        // Annotation NOT required, `FreePassUpdate` differs from `FreePassConstructor` by the `Id` field, but as always, explicit is better in a complex domain
+        // `FreePassUpdate` required since, as with the tests, `FreePass` is a private type and we can't **directly** assign it, or its members, to any constructor function, only a public clone of it
+        let update (freePass: FreePass) (update: FreePassUpdate) =
+            { freePass with
+                Id = update.Id |> Option.defaultValue freePass.Id // Compare with updating the `Ride` field... both approaches are the same, current one is starting at F#6
+                Ride = defaultArg update.Ride freePass.Ride
+                ValidFrom =
+                    update.ValidFrom
+                    |> Option.map (fun d -> d.Value)
+                    |> Option.defaultValue freePass.ValidFrom }
