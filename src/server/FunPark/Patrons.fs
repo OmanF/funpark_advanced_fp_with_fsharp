@@ -24,11 +24,11 @@ module Patrons =
               TicketTier: TicketTier
               FreePasses: Set<FreePass>
               Likes: Set<string>
-              Dislikes: Set<string> }
+              Dislikes: Set<string>
+              LastChanged: DateTime }
 
         override this.Equals otherPatron =
             match otherPatron with
-            // Equality is based on both `Id` and `Name`, same reasoning as in `Ride` type, and for the same educational purpose
             | :? Patron as other -> this.Id = other.Id && this.Name = other.Name
             | _ -> false
 
@@ -38,11 +38,9 @@ module Patrons =
         interface IComparable with
             member this.CompareTo otherPatron =
                 match otherPatron with
-                // Ordering over `Name` only, as `Id` has no intrinsic ordering value, it's just a unique identifier
-                | :? Patron as other -> this.Name.CompareTo other.Name
+                | :? Patron as other -> compare (this.Id, this.Name) (other.Id, other.Name)
                 | _ -> invalidArg "otherPatron" "Can't compare values of different types"
 
-    // Public view type for `Patron`, exposes all fields for dot-access
     type PatronView =
         { Id: Guid
           Name: string
@@ -55,8 +53,6 @@ module Patrons =
           Dislikes: Set<string> }
 
     module Patron =
-        // Utility type for constructing a `Patron`: allows for named parameters to be used as input for the constructor
-        // Either alternative, tuple or curried parameters, require positional arguments, with no tags, making it harder to understand the purpose of each argument, and their correct order
         type PatronConstructor =
             { Name: ContentfulString option
               Age: Natural<yr> option
@@ -67,7 +63,6 @@ module Patrons =
               Likes: string list
               Dislikes: string list }
 
-        // Auxiliary type for the following `update` function, because I dislike passing anonymous records as parameters
         type PatronUpdate =
             { Id: Guid option
               Name: ContentfulString option
@@ -79,8 +74,6 @@ module Patrons =
               Likes: string list option
               Dislikes: string list option }
 
-        // Annotating the function output's type as `Patron`, the private type, is required since `Patron` and `PatronView` have the same fields, and `PatronView` comes later, unless the function is annotated it will be assigned the wrong type, the public `PatronView` type
-        // The input's type is inferred as `PatronConstructor` since it's missing the `Id` field
         let create
             ({ Name = name
                Age = minAge
@@ -107,10 +100,9 @@ module Patrons =
               TicketTier = defaultArg ticketTier Standard
               FreePasses = freePasses |> Set.ofList
               Likes = likes |> Set.ofList
-              Dislikes = dislikes |> Set.ofList }
+              Dislikes = dislikes |> Set.ofList
+              LastChanged = DateTime.UtcNow }
 
-        // Annotation both required: since `Patron` and `PatronView` have the same fields, and `PatronView` comes later, unless `patron` is annotated, the compiler will assign its type as `PatronView` which will result in a logic error
-        // But, also helpful in distinguishing between the fact input is a `Patron`, the private type, and the output is `PatronView`, the publicly accessible type
         let value (patron: Patron) : PatronView =
             { Id = patron.Id
               Name = patron.Name
@@ -122,12 +114,8 @@ module Patrons =
               Likes = patron.Likes
               Dislikes = patron.Dislikes }
 
-        // Annotation NOT required, `PatronUpdate` differs from `PatronConstructor` by the `Id` field, but as always, explicit is better in a complex domain
-        // `PatronUpdate` required since, as with the tests, `Patron` is a private type and we can't **directly** assign it, or its members, to any constructor function, only a public clone of it
-        // Is it likely, not to mention smart, that a `Patron`'s `Id` would change? No, but an `update` function should be able to update any field, including the `Id`, even if it's not a common operation
         let update (patron: Patron) (update: PatronUpdate) =
             { patron with
-                // Using `Option.defaultValue` instead of `defaultArg` to show the stylistic choices in F# (since F#6, in this case)
                 Id = update.Id |> Option.defaultValue patron.Id
                 Name =
                     update.Name
@@ -158,4 +146,5 @@ module Patrons =
                 Dislikes =
                     update.Dislikes
                     |> Option.map (fun ds -> Set.union (Set.ofList ds) patron.Dislikes)
-                    |> Option.defaultValue patron.Dislikes }
+                    |> Option.defaultValue patron.Dislikes
+                LastChanged = DateTime.UtcNow }
