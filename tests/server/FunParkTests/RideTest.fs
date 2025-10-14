@@ -15,7 +15,7 @@ module RideTests =
               MinHeight = 100<cm>
               WaitTime = 60<s>
               Online = Online
-              Tags = [ FamilyFriendly; Thrilling ] }
+              Tags = [ FamilyFriendly; Thrilling ] |> Set }
 
         testList
             "Rides tests"
@@ -37,7 +37,7 @@ module RideTests =
                           MinAge = 5<yr>
                           MinHeight = 90<cm>
                           WaitTime = 25<s>
-                          Tags = [ FamilyFriendly ] }
+                          Tags = [ FamilyFriendly ] |> Set.ofList }
                       "Expected ride record to match"
 
               // Test case for null, empty, or whitespace only string is now void as `Name` attribute is set to `ContentfulString` type, ensuring name is neither of those at the type level, not at runtime
@@ -141,5 +141,5 @@ module RideTests =
                       (Ride.value ride)
                       { referenceRide with
                           Id = (Ride.value ride).Id
-                          Tags = [] }
+                          Tags = [] |> Set.ofList }
                       "Expected ride record to match" ]

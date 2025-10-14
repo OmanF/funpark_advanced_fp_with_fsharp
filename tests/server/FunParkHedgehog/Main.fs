@@ -7,7 +7,6 @@ let main _ =
         [ "Ride - Minimal age is a Natural number"
           "Ride - Minimal height is a Natural number"
           "Ride - Minimal wait time is a Natural number"
-          "Ride - There are no duplicate tags"
           "Ride - Offline wait time is zero for offline rides"
           "FreePass - FreePass initial validation data is current to issuing" ]
 
@@ -15,7 +14,6 @@ let main _ =
         [ propMinAgeNatural
           propMinHeightNatural
           propMinWaitTimeNatural
-          propNoDuplicateTags
           propOfflineWaitTimeZero
           propFreePassNotInFuture ]
 

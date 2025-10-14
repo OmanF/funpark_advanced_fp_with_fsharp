@@ -116,17 +116,6 @@ module RideProperties =
                 failwithf "Ride.WaitTime is not positive: %A" rideView.WaitTime
         }
 
-    let propNoDuplicateTags =
-        property {
-            let! ride = genRide
-            let rideView = Ride.value ride
-
-            if List.distinct rideView.Tags |> List.length = List.length rideView.Tags then
-                ()
-            else
-                failwithf "Ride.Tags contains duplicates: %A" rideView.Tags
-        }
-
     let propOfflineWaitTimeZero =
         property {
             let! ride = genRide

@@ -50,7 +50,7 @@ module Patrons =
           Height: int<cm>
           RewardPoints: int<rp>
           TicketTier: TicketTier
-          FreePasses: Set<FreePassView>
+          FreePasses: Set<FreePass>
           Likes: Set<string>
           Dislikes: Set<string> }
 
@@ -112,7 +112,7 @@ module Patrons =
               Height = patron.Height
               RewardPoints = patron.RewardPoints
               TicketTier = patron.TicketTier
-              FreePasses = patron.FreePasses |> Set.map FreePass.value
+              FreePasses = patron.FreePasses
               Likes = patron.Likes
               Dislikes = patron.Dislikes }
 
