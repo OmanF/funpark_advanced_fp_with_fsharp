@@ -28,7 +28,7 @@ module FreePasses =
 
     type FreePassView =
         { Id: Guid
-          Ride: RideView
+          Ride: Ride
           ValidFrom: DateTime }
 
     module FreePass =
@@ -52,7 +52,7 @@ module FreePasses =
 
         let value (freePass: FreePass) : FreePassView =
             { Id = freePass.Id
-              Ride = Ride.value freePass.Ride
+              Ride = freePass.Ride
               ValidFrom = freePass.ValidFrom }
 
         let update (freePass: FreePass) (update: FreePassUpdate) =

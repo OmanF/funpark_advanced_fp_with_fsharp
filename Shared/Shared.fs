@@ -31,6 +31,19 @@ module Domain =
 
         member _.Value = date
 
+        override this.Equals obj =
+            match obj with
+            | :? ValidFreePassStartDate as other -> this.Value = other.Value
+            | _ -> false
+
+        override this.GetHashCode() = hash this.Value
+
+        interface IComparable with
+            member this.CompareTo obj =
+                match obj with
+                | :? ValidFreePassStartDate as other -> compare this.Value other.Value
+                | _ -> invalidArg "obj" "cannot compare values of different types"
+
     type Natural<[<Measure>] 'u> = private Natural of int<'u>
 
     module Natural =

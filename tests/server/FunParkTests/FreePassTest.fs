@@ -20,36 +20,19 @@ module FreePassTests =
 
         testList
             "FreePass tests"
-            [ testCase "Create a FreePass with all valid parameters - `FreePass` type happy path"
+            // There is no "Happy path" test for FreePass creation because the only way to create a FreePass is via the `FreePass.create` function, which only takes already validated parameters, so there is no way to create an invalid FreePass at runtime
+            [ testCase "Create a FreePass with an invalid ValidFrom date (in the future)"
               <| fun _ ->
-                  printfn "Testing FreePass"
+                  let invalidDate = System.DateTime.UtcNow.AddHours(1)
 
-                  let freePass =
+                  let testFreePass =
                       FreePass.create
                           { Ride = referenceRide
-                            ValidFrom = ValidFreePassStartDate.Create System.DateTime.UtcNow }
+                            ValidFrom = ValidFreePassStartDate.Create invalidDate }
 
                   Expect.equal
-                      (FreePass.value freePass)
-                      { Ride = Ride.value referenceRide
-                        ValidFrom = (FreePass.value freePass).ValidFrom
-                        Id = (FreePass.value freePass).Id }
-                      "Expected FreePass record to match"
-
-              //   testCase "Create a FreePass with an invalid ValidFrom date (in the future)"
-              //   <| fun _ ->
-              //       let ride =
-              //           Ride.create
-              //               { Name = ContentfulString.Create "Roller Coaster"
-              //                 MinAge = Natural.create 5<yr>
-              //                 MinHeight = Natural.create 90<cm>
-              //                 WaitTime = Natural.create 25<s>
-              //                 Online = Some Online
-              //                 Tags = [ FamilyFriendly ] }
-
-              //       let invalidDate = System.DateTime.UtcNow.AddHours(1)
-
-              //       Expect.isNone
-              //           (ValidFreePassStartDate.Create invalidDate)
-              //           (sprintf "Expected None for invalid ValidFrom date: %A" invalidDate)
-              ]
+                      (FreePass.value testFreePass)
+                      { Ride = referenceRide
+                        Id = (FreePass.value testFreePass).Id
+                        ValidFrom = (FreePass.value testFreePass).ValidFrom }
+                      "Expected ValidFrom to be `DateTime.UtcNow`" ]
