@@ -28,15 +28,15 @@ module Rides =
 
         override this.Equals otherRide =
             match otherRide with
-            | :? Ride as other -> this.Name = other.Name
+            | :? Ride as other -> this.Id = other.Id
             | _ -> false
 
-        override this.GetHashCode() = hash this.Name
+        override this.GetHashCode() = hash this.Id
 
         interface IComparable with
             member this.CompareTo otherRide =
                 match otherRide with
-                | :? Ride as other -> this.Name.CompareTo other.Name
+                | :? Ride as other -> this.Id.CompareTo other.Id
                 | _ -> invalidArg "otherRide" "Can't compare values of different types"
 
     type RideView =

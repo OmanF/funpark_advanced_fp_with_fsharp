@@ -29,10 +29,12 @@ module Patrons =
 
         override this.Equals otherPatron =
             match otherPatron with
+            // Educational: by asserting equality on two (or more) members, we must use `HashCode.Combine` in `GetHashCode` override
             | :? Patron as other -> this.Id = other.Id && this.Name = other.Name
             | _ -> false
 
         override this.GetHashCode() =
+            // Educational: `HashCode.Combine` is used to combine multiple hash codes into a single hash code
             HashCode.Combine(hash this.Id, hash this.Name)
 
         interface IComparable with

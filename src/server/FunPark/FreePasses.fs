@@ -15,15 +15,15 @@ module FreePasses =
 
         override this.Equals otherFreePass =
             match otherFreePass with
-            | :? FreePass as other -> this.ValidFrom = other.ValidFrom
+            | :? FreePass as other -> this.Id = other.Id
             | _ -> false
 
-        override this.GetHashCode() = hash this.ValidFrom
+        override this.GetHashCode() = hash this.Id
 
         interface IComparable with
             member this.CompareTo otherFreePass =
                 match otherFreePass with
-                | :? FreePass as other -> this.ValidFrom.CompareTo other.ValidFrom
+                | :? FreePass as other -> this.Id.CompareTo other.Id
                 | _ -> invalidArg "otherFreePass" "Can't compare values of different types"
 
     type FreePassView =
